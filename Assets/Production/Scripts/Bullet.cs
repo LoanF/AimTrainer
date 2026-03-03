@@ -42,9 +42,9 @@ public class Bullet : MonoBehaviour
         var renderer = GetComponent<Renderer>();
         if (renderer == null) return;
 
-        var mat = new Material(renderer.material);
+        var mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
         Color gold = new Color(0.83f, 0.69f, 0.22f);
-        mat.color = gold;
+        mat.SetColor("_BaseColor", gold);
         mat.EnableKeyword("_EMISSION");
         mat.SetColor("_EmissionColor", gold * 1.5f);
         mat.SetFloat("_Metallic", 0.9f);

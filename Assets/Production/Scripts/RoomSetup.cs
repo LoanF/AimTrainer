@@ -70,8 +70,8 @@ public class RoomSetup : MonoBehaviour
         go.transform.localScale = scale;
 
         var renderer = go.GetComponent<Renderer>();
-        var mat = new Material(renderer.material);
-        mat.color = color;
+        var mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        mat.SetColor("_BaseColor", color);
         renderer.material = mat;
         return go;
     }
@@ -82,5 +82,6 @@ public class RoomSetup : MonoBehaviour
         var mat = renderer.material;
         mat.EnableKeyword("_EMISSION");
         mat.SetColor("_EmissionColor", color * intensity);
+        mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
     }
 }
