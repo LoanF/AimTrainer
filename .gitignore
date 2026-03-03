@@ -10,3 +10,4 @@
 *.unitypackage
 *.user
 .idea
+*.DS_Store
