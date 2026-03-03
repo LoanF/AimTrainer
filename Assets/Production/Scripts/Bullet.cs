@@ -21,23 +21,14 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        // Move forward
         transform.position += transform.forward * speed * Time.deltaTime;
 
-        // Raycast between previous and current position to detect hits
         Vector3 direction = transform.position - previousPosition;
         float distance = direction.magnitude;
 
         if (distance > 0f && Physics.Raycast(previousPosition, direction.normalized, out RaycastHit hit, distance))
         {
-            Debug.Log("[Bullet] Hit: " + hit.collider.gameObject.name);
-
-            var target = hit.collider.GetComponent<Target>();
-            if (target != null)
-            {
-                target.OnBulletHit();
-            }
-
+            hit.collider.GetComponent<Target>()?.OnBulletHit();
             Destroy(gameObject);
             return;
         }

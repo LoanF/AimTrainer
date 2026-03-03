@@ -18,7 +18,6 @@ public class Target : MonoBehaviour
 
     public void OnBulletHit()
     {
-        Debug.Log("[Target] HIT! " + gameObject.name);
         targetRenderer.material.color = hitColor;
 
         if (resetDelay > 0f)
