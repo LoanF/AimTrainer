@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ShootController : MonoBehaviour
@@ -63,10 +64,17 @@ public class ShootController : MonoBehaviour
             lastShootTime = Time.time;
             Instantiate(bulletPrefab, shootOrigin.position, shootOrigin.rotation);
             audioSource.PlayOneShot(shootClip);
-            OVRInput.SetControllerVibration(0.15f, 0.3f, OVRInput.Controller.RTouch);
+            StartCoroutine(HapticPulse());
         }
 
         wasPressedLastFrame = isPressed;
+    }
+
+    private IEnumerator HapticPulse()
+    {
+        OVRInput.SetControllerVibration(0.15f, 0.3f, OVRInput.Controller.RTouch);
+        yield return new WaitForSeconds(0.05f);
+        OVRInput.SetControllerVibration(0f, 0f, OVRInput.Controller.RTouch);
     }
 
     public void ToggleFireMode()
