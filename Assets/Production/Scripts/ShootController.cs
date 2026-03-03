@@ -11,6 +11,15 @@ public class ShootController : MonoBehaviour
 
     private float lastShootTime;
     private bool wasPressedLastFrame;
+    private AudioSource audioSource;
+    private AudioClip shootClip;
+
+    private void Awake()
+    {
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.spatialize = true;
+        shootClip = SoundGenerator.GenerateShootSound();
+    }
 
     private void Update()
     {
@@ -20,6 +29,7 @@ public class ShootController : MonoBehaviour
         {
             lastShootTime = Time.time;
             Instantiate(bulletPrefab, shootOrigin.position, shootOrigin.rotation);
+            audioSource.PlayOneShot(shootClip);
         }
 
         wasPressedLastFrame = isPressed;

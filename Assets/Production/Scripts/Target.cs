@@ -9,16 +9,22 @@ public class Target : MonoBehaviour
 
     private Renderer targetRenderer;
     private Color originalColor;
+    private AudioSource audioSource;
+    private AudioClip hitClip;
 
     private void Awake()
     {
         targetRenderer = GetComponent<Renderer>();
         originalColor = targetRenderer.material.color;
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.spatialize = true;
+        hitClip = SoundGenerator.GenerateHitSound();
     }
 
     public void OnBulletHit()
     {
         targetRenderer.material.color = hitColor;
+        audioSource.PlayOneShot(hitClip);
 
         if (resetDelay > 0f)
         {
