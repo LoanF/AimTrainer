@@ -3,7 +3,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private float speed = 20f;
+    [SerializeField] private float speed = 60f;
     [SerializeField] private float lifetime = 5f;
 
     private Vector3 previousPosition;

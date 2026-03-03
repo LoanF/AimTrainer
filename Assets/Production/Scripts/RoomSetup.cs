@@ -3,9 +3,9 @@ using UnityEngine;
 public class RoomSetup : MonoBehaviour
 {
     [Header("Room Size")]
-    [SerializeField] private float width = 60f;
-    [SerializeField] private float length = 80f;
-    [SerializeField] private float height = 25f;
+    [SerializeField] private float width = 30f;
+    [SerializeField] private float length = 40f;
+    [SerializeField] private float height = 10f;
 
     private void Awake()
     {
@@ -26,8 +26,8 @@ public class RoomSetup : MonoBehaviour
         CreateSurface("WallRight", new Vector3(width / 2f, height / 2f, 0f), new Vector3(0.2f, height, length), wallColor);
 
         // Floor accent stripes (shooting lanes)
-        float laneWidth = 3f;
-        int laneCount = 5;
+        float laneWidth = 1.5f;
+        int laneCount = 3;
         float startX = -(laneCount - 1) * laneWidth;
         for (int i = 0; i < laneCount; i++)
         {
