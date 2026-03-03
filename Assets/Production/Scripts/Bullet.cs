@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
 
     private void Awake()
     {
+        SetupVisuals();
         SetupTrail();
     }
 
@@ -36,6 +37,21 @@ public class Bullet : MonoBehaviour
         previousPosition = transform.position;
     }
 
+    private void SetupVisuals()
+    {
+        var renderer = GetComponent<Renderer>();
+        if (renderer == null) return;
+
+        var mat = new Material(renderer.material);
+        Color gold = new Color(0.83f, 0.69f, 0.22f);
+        mat.color = gold;
+        mat.EnableKeyword("_EMISSION");
+        mat.SetColor("_EmissionColor", gold * 1.5f);
+        mat.SetFloat("_Metallic", 0.9f);
+        mat.SetFloat("_Smoothness", 0.8f);
+        renderer.material = mat;
+    }
+
     private void SetupTrail()
     {
         var trail = gameObject.AddComponent<TrailRenderer>();
@@ -43,7 +59,8 @@ public class Bullet : MonoBehaviour
         trail.startWidth = 0.02f;
         trail.endWidth = 0f;
         trail.material = new Material(Shader.Find("Sprites/Default"));
-        trail.startColor = Color.yellow;
-        trail.endColor = new Color(1f, 1f, 0f, 0f);
+        Color gold = new Color(0.83f, 0.69f, 0.22f);
+        trail.startColor = gold;
+        trail.endColor = new Color(gold.r, gold.g, gold.b, 0f);
     }
 }
