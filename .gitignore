@@ -11,3 +11,5 @@
 *.user
 .idea
 *.DS_Store
+.vscode/
+mono_crash*
