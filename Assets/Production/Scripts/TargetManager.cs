@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class TargetManager : MonoBehaviour
 {
-    public GameObject targetPrefab; 
+    public List<GameObject> targetPrefabs = new List<GameObject>(); 
     public float spawnDistance = 3.0f;
     private GameObject currentTarget;
 
@@ -22,8 +22,25 @@ public class TargetManager : MonoBehaviour
         Vector3 offset = new Vector3(Random.Range(-2f, 2f), Random.Range(1f, 2f), spawnDistance);
         Vector3 newPosition = transform.position + offset;
 
-        currentTarget = Instantiate(targetPrefab, newPosition, Quaternion.identity);
-    
-        currentTarget.GetComponent<TargetObstacle>().manager = this;
+        List<GameObject> validPrefabs = new List<GameObject>();
+        if (targetPrefabs != null)
+        {
+            foreach (var p in targetPrefabs)
+            {
+                if (p != null) validPrefabs.Add(p);
+            }
+        }
+
+        if (validPrefabs.Count > 0)
+        {
+            GameObject prefabToSpawn = validPrefabs[Random.Range(0, validPrefabs.Count)];
+            currentTarget = Instantiate(prefabToSpawn, newPosition, Quaternion.identity);
+        
+            currentTarget.GetComponent<TargetObstacle>().manager = this;
+        }
+        else
+        {
+            Debug.LogWarning("No target prefabs assigned to TargetManager!");
+        }
     }
 }
