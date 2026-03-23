@@ -39,7 +39,10 @@ public class ScoreManager : MonoBehaviour
         OnGameOver += () =>
         {
             if (spawner != null)
+            {
                 spawner.IsEnabled = false;
+                spawner.SetTargetVisible(false);
+            }
         };
 
         OnGameRestarted += () =>
@@ -47,15 +50,18 @@ public class ScoreManager : MonoBehaviour
             if (spawner != null)
             {
                 spawner.IsEnabled = true;
+                spawner.SetTargetVisible(true);
                 spawner.Respawn();
             }
         };
-
-        StartGame();
     }
 
     private void Update()
     {
+        // Bouton A (droit) pour démarrer / redémarrer
+        if (!IsPlaying && OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.RTouch))
+            StartGame();
+
         if (!IsPlaying) return;
 
         TimeRemaining -= Time.deltaTime;

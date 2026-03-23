@@ -36,6 +36,7 @@ public class TargetSpawner : MonoBehaviour
         target.OnHit += OnTargetHit;
 
         SpawnAtRandomPosition();
+        targetObject.SetActive(false); // caché jusqu'au début de la partie
     }
 
     private void OnTargetHit()
@@ -45,6 +46,8 @@ public class TargetSpawner : MonoBehaviour
     }
 
     public void Respawn() => SpawnAtRandomPosition();
+
+    public void SetTargetVisible(bool visible) => targetObject.SetActive(visible);
 
     private void SpawnAtRandomPosition()
     {
