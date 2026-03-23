@@ -16,6 +16,9 @@ public class TargetSpawner : MonoBehaviour
     private GameObject targetObject;
     private Target target;
 
+    public Target CurrentTarget => target;
+    public bool IsEnabled { get; set; } = true;
+
     private void Awake()
     {
         targetObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -30,10 +33,18 @@ public class TargetSpawner : MonoBehaviour
         renderer.material = mat;
 
         target = targetObject.AddComponent<Target>();
-        target.OnHit += SpawnAtRandomPosition;
+        target.OnHit += OnTargetHit;
 
         SpawnAtRandomPosition();
     }
+
+    private void OnTargetHit()
+    {
+        if (IsEnabled)
+            SpawnAtRandomPosition();
+    }
+
+    public void Respawn() => SpawnAtRandomPosition();
 
     private void SpawnAtRandomPosition()
     {

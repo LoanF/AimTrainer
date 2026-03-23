@@ -39,28 +39,29 @@ public class Bullet : MonoBehaviour
 
     private void SetupVisuals()
     {
+        // Redimensionne en petit projectile réaliste (~9mm)
+        transform.localScale = new Vector3(0.008f, 0.008f, 0.018f);
+
         var renderer = GetComponent<Renderer>();
         if (renderer == null) return;
 
         var mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-        Color gold = new Color(0.83f, 0.69f, 0.22f);
-        mat.SetColor("_BaseColor", gold);
-        mat.EnableKeyword("_EMISSION");
-        mat.SetColor("_EmissionColor", gold * 1.5f);
-        mat.SetFloat("_Metallic", 0.9f);
-        mat.SetFloat("_Smoothness", 0.8f);
+        // Couleur plomb/cuivre sombre
+        mat.SetColor("_BaseColor", new Color(0.25f, 0.18f, 0.10f));
+        mat.SetFloat("_Metallic", 0.85f);
+        mat.SetFloat("_Smoothness", 0.4f);
         renderer.material = mat;
     }
 
     private void SetupTrail()
     {
         var trail = gameObject.AddComponent<TrailRenderer>();
-        trail.time = 0.3f;
-        trail.startWidth = 0.02f;
+        trail.time = 0.06f;
+        trail.startWidth = 0.004f;
         trail.endWidth = 0f;
         trail.material = new Material(Shader.Find("Sprites/Default"));
-        Color gold = new Color(0.83f, 0.69f, 0.22f);
-        trail.startColor = gold;
-        trail.endColor = new Color(gold.r, gold.g, gold.b, 0f);
+        // Trainée de fumée blanche/grise semi-transparente
+        trail.startColor = new Color(0.85f, 0.85f, 0.85f, 0.5f);
+        trail.endColor = new Color(0.6f, 0.6f, 0.6f, 0f);
     }
 }

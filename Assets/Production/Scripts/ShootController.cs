@@ -8,6 +8,7 @@ public class ShootController : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform shootOrigin;
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private AudioClip shootSoundOverride;
 
     [Header("Settings")]
     [SerializeField] private float shootCooldown = 0.2f;
@@ -22,6 +23,8 @@ public class ShootController : MonoBehaviour
     private AudioClip shootClip;
     private Quaternion smoothedRotation;
     private bool isAiming;
+    private bool isEquipped;
+    private Transform defaultShootOrigin;
 
     public FireMode CurrentFireMode => fireMode;
     public bool IsAiming => isAiming;
@@ -30,8 +33,21 @@ public class ShootController : MonoBehaviour
     {
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.spatialize = true;
-        shootClip = SoundGenerator.GenerateShootSound();
+        shootClip = shootSoundOverride != null ? shootSoundOverride : SoundGenerator.GenerateShootSound();
         smoothedRotation = transform.rotation;
+        defaultShootOrigin = shootOrigin;
+    }
+
+    public void SetEquipped(bool equipped) => isEquipped = equipped;
+
+    public void SetShootOrigin(Transform origin) => shootOrigin = origin;
+
+    public void RestoreDefaultShootOrigin() => shootOrigin = defaultShootOrigin;
+
+    public void SetWeaponData(WeaponData data)
+    {
+        shootCooldown = data.shootCooldown;
+        fireMode = data.fireMode;
     }
 
     private void Update()
@@ -53,7 +69,7 @@ public class ShootController : MonoBehaviour
         if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch))
             ToggleFireMode();
 
-        bool canShoot = Time.time >= lastShootTime + shootCooldown;
+        bool canShoot = isEquipped && Time.time >= lastShootTime + shootCooldown;
 
         bool shouldShoot = fireMode == FireMode.Auto
             ? isPressed && canShoot
@@ -65,6 +81,7 @@ public class ShootController : MonoBehaviour
             Instantiate(bulletPrefab, shootOrigin.position, shootOrigin.rotation);
             audioSource.PlayOneShot(shootClip);
             StartCoroutine(HapticPulse());
+            StartCoroutine(MuzzleFlash());
         }
 
         wasPressedLastFrame = isPressed;
@@ -75,6 +92,22 @@ public class ShootController : MonoBehaviour
         OVRInput.SetControllerVibration(0.15f, 0.3f, OVRInput.Controller.RTouch);
         yield return new WaitForSeconds(0.05f);
         OVRInput.SetControllerVibration(0f, 0f, OVRInput.Controller.RTouch);
+    }
+
+    private IEnumerator MuzzleFlash()
+    {
+        // Crée une lumière ponctuelle orange/blanche au niveau de la bouche
+        var flashGo = new GameObject("MuzzleFlash");
+        flashGo.transform.position = shootOrigin.position;
+
+        var light = flashGo.AddComponent<Light>();
+        light.type = LightType.Point;
+        light.color = new Color(1f, 0.75f, 0.3f);
+        light.intensity = 8f;
+        light.range = 1.5f;
+
+        yield return new WaitForSeconds(0.04f);
+        Destroy(flashGo);
     }
 
     public void ToggleFireMode()
