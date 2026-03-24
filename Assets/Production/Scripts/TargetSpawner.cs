@@ -12,6 +12,7 @@ public class TargetSpawner : MonoBehaviour
 
     [Header("Target")]
     [SerializeField] private Vector3 targetScale = Vector3.one;
+    [SerializeField] private AudioClip hitSoundOverride;
 
     private GameObject targetObject;
     private Target target;
@@ -33,6 +34,7 @@ public class TargetSpawner : MonoBehaviour
         renderer.material = mat;
 
         target = targetObject.AddComponent<Target>();
+        target.SetHitSound(hitSoundOverride);
         target.OnHit += OnTargetHit;
 
         SpawnAtRandomPosition();

@@ -16,3 +16,6 @@ MonoBehaviour:
   shootCooldown: 0.08
   fireMode: 1
   isTwoHanded: 1
+  soundProfile: {fileID: 11400000, guid: 5ca05e6eb449d6046966e9e679c4f707, type: 2}
+  spreadAngle: 0.5
+  bulletsPerShot: 1

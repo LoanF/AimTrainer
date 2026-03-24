@@ -30,6 +30,7 @@ public class Bullet : MonoBehaviour
         if (distance > 0f && Physics.Raycast(previousPosition, direction.normalized, out RaycastHit hit, distance))
         {
             hit.collider.GetComponent<Target>()?.OnBulletHit();
+            hit.collider.GetComponent<TargetObstacle>()?.WasShot();
             Destroy(gameObject);
             return;
         }

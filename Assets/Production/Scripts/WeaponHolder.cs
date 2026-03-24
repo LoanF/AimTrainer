@@ -39,6 +39,8 @@ public class WeaponHolder : MonoBehaviour
             && equippedWeapon.secondaryGripPoint != null
             && leftHandTransform != null)
         {
+            bool wasGripped = isSecondaryGripped;
+
             if (!isSecondaryGripped
                 && OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.LTouch))
             {
@@ -52,6 +54,9 @@ public class WeaponHolder : MonoBehaviour
             {
                 isSecondaryGripped = false;
             }
+
+            if (isSecondaryGripped != wasGripped)
+                shootController.SetEquipped(isSecondaryGripped);
         }
     }
 
@@ -134,7 +139,8 @@ public class WeaponHolder : MonoBehaviour
             isTwoHanded = equippedWeapon.weaponData.isTwoHanded;
         }
 
-        shootController.SetEquipped(true);
+        // Arme deux mains : le tir reste désactivé tant que la main gauche ne tient pas le foregrip
+        shootController.SetEquipped(!isTwoHanded);
         SetControllerVisible(false);
     }
 

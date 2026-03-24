@@ -8,7 +8,7 @@ public class ShootController : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform shootOrigin;
     [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private AudioClip shootSoundOverride;
+    [SerializeField] private WeaponSoundProfile defaultSoundProfile;
 
     [Header("Settings")]
     [SerializeField] private float shootCooldown = 0.2f;
@@ -16,6 +16,10 @@ public class ShootController : MonoBehaviour
 
     [Header("Aim Down Sights")]
     [SerializeField] private float aimSmoothing = 0.3f;
+
+    [Header("Bullet Spread")]
+    [SerializeField] private float spreadAngle = 0f;
+    [SerializeField] private int bulletsPerShot = 1;
 
     private float lastShootTime;
     private bool wasPressedLastFrame;
@@ -34,7 +38,7 @@ public class ShootController : MonoBehaviour
     {
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.spatialize = true;
-        shootClip = shootSoundOverride != null ? shootSoundOverride : SoundGenerator.GenerateShootSound();
+        shootClip = defaultSoundProfile != null ? defaultSoundProfile.GetClip() : SoundGenerator.GenerateShootSound();
         smoothedRotation = transform.rotation;
         defaultShootOrigin = shootOrigin;
     }
@@ -51,6 +55,11 @@ public class ShootController : MonoBehaviour
     {
         shootCooldown = data.shootCooldown;
         fireMode = data.fireMode;
+        spreadAngle = data.spreadAngle;
+        bulletsPerShot = Mathf.Max(1, data.bulletsPerShot);
+        shootClip = data.soundProfile != null
+            ? data.soundProfile.GetClip()
+            : SoundGenerator.GenerateShootSound();
     }
 
     private void Update()
@@ -81,10 +90,19 @@ public class ShootController : MonoBehaviour
         if (shouldShoot)
         {
             lastShootTime = Time.time;
-            Quaternion bulletRot = aimTransform != null
+            Quaternion baseRot = aimTransform != null
                 ? Quaternion.LookRotation(aimTransform.forward, aimTransform.up)
                 : shootOrigin.rotation;
-            Instantiate(bulletPrefab, shootOrigin.position, bulletRot);
+            for (int b = 0; b < bulletsPerShot; b++)
+            {
+                Quaternion bulletRot = spreadAngle > 0f
+                    ? baseRot * Quaternion.Euler(
+                        Random.Range(-spreadAngle, spreadAngle),
+                        Random.Range(-spreadAngle, spreadAngle),
+                        0f)
+                    : baseRot;
+                Instantiate(bulletPrefab, shootOrigin.position, bulletRot);
+            }
             audioSource.PlayOneShot(shootClip);
             StartCoroutine(HapticPulse());
             StartCoroutine(MuzzleFlash());

@@ -2688,9 +2688,6 @@ MonoBehaviour:
   - {fileID: 4728273099803234851, guid: a9d7853d6371129499a337419e20cfde, type: 3}
   - {fileID: 30562492699378334, guid: 512e5673370b24943b32e2e4e2840736, type: 3}
   - {fileID: 6960969900991362043, guid: 731056052f1ba904499e945963c2cfe9, type: 3}
-  - {fileID: 6325955807093869442, guid: d32683ac8a8413d4a8d3f743ee8eaa67, type: 3}
-  - {fileID: 5145215958573235639, guid: fe8bf7c7dfc656448a16b3aa61ab103c, type: 3}
-  - {fileID: 452228672666451013, guid: 91200759d0712164b8c2f26054fa23cd, type: 3}
 --- !u!1 &523047348
 GameObject:
   m_ObjectHideFlags: 0
@@ -6691,12 +6688,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShootController
   shootOrigin: {fileID: 1301574128}
   bulletPrefab: {fileID: 1667455233878872695, guid: 3adf45807994f48be923f2271a6f71d6, type: 3}
-  defaultSoundProfile: {fileID: 0}
+  shootSoundOverride: {fileID: 8300000, guid: 14bfa083f023bc84f935c5cf11f1d40b, type: 3}
   shootCooldown: 0.2
   fireMode: 0
   aimSmoothing: 0.3
-  spreadAngle: 0
-  bulletsPerShot: 1
 --- !u!1 &1311120600
 GameObject:
   m_ObjectHideFlags: 0

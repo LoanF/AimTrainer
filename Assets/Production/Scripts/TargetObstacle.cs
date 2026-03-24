@@ -2,12 +2,17 @@ using UnityEngine;
 
 public class TargetObstacle : MonoBehaviour
 {
-    [HideInInspector] 
+    [HideInInspector]
     public TargetManager manager;
 
     [Header("Target Properties")]
     public float speed = 0f;
     public Color targetColor = Color.white;
+
+    [Header("Sound")]
+    [SerializeField] private AudioClip hitSoundOverride;
+
+    private AudioSource audioSource;
 
     private Vector3 startPos;
     private float randOffset;
@@ -17,6 +22,9 @@ public class TargetObstacle : MonoBehaviour
     {
         startPos = transform.position;
         randOffset = Random.Range(0f, 100f);
+
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.spatialize = true;
 
         Renderer rend = GetComponent<Renderer>();
         if (rend != null)
@@ -46,15 +54,15 @@ public class TargetObstacle : MonoBehaviour
     [ContextMenu("Force WasShot")]
     public void WasShot()
     {
+        AudioClip clip = hitSoundOverride != null ? hitSoundOverride : Resources.Load<AudioClip>("cible") ?? SoundGenerator.GenerateHitSound();
+        AudioSource.PlayClipAtPoint(clip, transform.position);
+
         if (manager != null)
         {
             manager.RelocateTarget(this.transform.position);
-            
             Destroy(gameObject);
-            
-            Debug.Log("Target Hit! Manager is spawning the next one.");
         }
-        else 
+        else
         {
             Debug.LogWarning("This Target has no Manager assigned! Check your Spawner logic.");
         }

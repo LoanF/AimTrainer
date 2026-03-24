@@ -12,7 +12,12 @@ public class Target : MonoBehaviour
     {
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.spatialize = true;
-        hitClip = SoundGenerator.GenerateHitSound();
+        hitClip = Resources.Load<AudioClip>("cible") ?? SoundGenerator.GenerateHitSound();
+    }
+
+    public void SetHitSound(AudioClip clip)
+    {
+        if (clip != null) hitClip = clip;
     }
 
     public void OnBulletHit()

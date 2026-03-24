@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2c2d9b3bdfa89b41a91b53ee4a7c543, type: 3}
-  m_Name: pistol1
+  m_Name: shotgun1
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  weaponName: Revolver
-  shootCooldown: 1
+  weaponName: SPAS-12
+  shootCooldown: 1.5
   fireMode: 0
-  isTwoHanded: 0
-  soundProfile: {fileID: 11400000, guid: ddfdb4effa962e04f8cf8ed72d7ef2fc, type: 2}
-  spreadAngle: 1
-  bulletsPerShot: 1
+  isTwoHanded: 1
+  soundProfile: {fileID: 11400000, guid: d131f35a30c51994fb6166e71ff1b999, type: 2}
+  spreadAngle: 8
+  bulletsPerShot: 7
