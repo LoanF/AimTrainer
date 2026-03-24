@@ -25,6 +25,7 @@ public class ShootController : MonoBehaviour
     private bool isAiming;
     private bool isEquipped;
     private Transform defaultShootOrigin;
+    private Transform aimTransform;
 
     public FireMode CurrentFireMode => fireMode;
     public bool IsAiming => isAiming;
@@ -41,6 +42,8 @@ public class ShootController : MonoBehaviour
     public void SetEquipped(bool equipped) => isEquipped = equipped;
 
     public void SetShootOrigin(Transform origin) => shootOrigin = origin;
+
+    public void SetAimTransform(Transform aim) => aimTransform = aim;
 
     public void RestoreDefaultShootOrigin() => shootOrigin = defaultShootOrigin;
 
@@ -78,7 +81,10 @@ public class ShootController : MonoBehaviour
         if (shouldShoot)
         {
             lastShootTime = Time.time;
-            Instantiate(bulletPrefab, shootOrigin.position, shootOrigin.rotation);
+            Quaternion bulletRot = aimTransform != null
+                ? Quaternion.LookRotation(aimTransform.forward, aimTransform.up)
+                : shootOrigin.rotation;
+            Instantiate(bulletPrefab, shootOrigin.position, bulletRot);
             audioSource.PlayOneShot(shootClip);
             StartCoroutine(HapticPulse());
             StartCoroutine(MuzzleFlash());

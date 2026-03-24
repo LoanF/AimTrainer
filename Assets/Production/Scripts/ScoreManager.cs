@@ -17,7 +17,8 @@ public class ScoreManager : MonoBehaviour
     public Action OnGameOver;
     public Action OnGameRestarted;
 
-    private TargetSpawner spawner;
+    private TargetSpawner          spawner;
+    private WeaponSelectionMenu    weaponMenu;
 
     private void Awake()
     {
@@ -31,7 +32,8 @@ public class ScoreManager : MonoBehaviour
 
     private void Start()
     {
-        spawner = FindFirstObjectByType<TargetSpawner>();
+        spawner    = FindFirstObjectByType<TargetSpawner>();
+        weaponMenu = FindFirstObjectByType<WeaponSelectionMenu>();
 
         if (spawner != null)
             spawner.CurrentTarget.OnHit += RegisterHit;
@@ -58,9 +60,12 @@ public class ScoreManager : MonoBehaviour
 
     private void Update()
     {
-        // Bouton A (droit) pour démarrer / redémarrer
+        // [A] droit — démarrer / redémarrer (bloqué si le menu armes est ouvert)
         if (!IsPlaying && OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.RTouch))
-            StartGame();
+        {
+            bool menuOpen = weaponMenu != null && weaponMenu.IsOpen;
+            if (!menuOpen) StartGame();
+        }
 
         if (!IsPlaying) return;
 

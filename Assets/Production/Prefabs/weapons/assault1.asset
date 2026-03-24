@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c2d9b3bdfa89b41a91b53ee4a7c543, type: 3}
   m_Name: assault1
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  weaponName: Weapon
-  shootCooldown: 0.2
-  fireMode: 0
+  weaponName: AK-47
+  shootCooldown: 0.08
+  fireMode: 1
   isTwoHanded: 1

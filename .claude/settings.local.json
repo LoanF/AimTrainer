@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find D:ProjectsAimTrainerAssetsProductionScripts -name *GameManager* -o -name *Manager* -o -name *Bootstrap*)",
+      "Bash(find D:ProjectsAimTrainer/Library/PackageCache -type d -name *building* -o -type d -name *BB_* -o -type d -name *BuildingBlock*)",
+      "Bash(find D:ProjectsAimTrainer/Library/PackageCache/com.meta.xr.sdk.core@f8b4cfb2789f/Scripts/BuildingBlocks -type f -name *.prefab -o -name BB_*)",
+      "Bash(find D:ProjectsAimTrainer/Library/PackageCache -type f -name BB_*)",
+      "Bash(find D:ProjectsAimTrainer/Library/PackageCache -type f -name *BuildingBlock*.prefab)",
+      "Bash(grep -r TextMeshPro D:ProjectsAimTrainer/Assets --include=*.cs --include=*.prefab -l)",
+      "Bash(find D:ProjectsAimTrainer/Library/PackageCache -path *com.meta.xr.sdk.core* -name *.prefab)",
+      "Bash(find D:ProjectsAimTrainer/Library/PackageCache/com.meta.xr.sdk.interaction@0a0b3efbe99d -type f -name *.prefab)",
+      "Bash(find D:ProjectsAimTrainer/Library/PackageCache/com.meta.xr.sdk.interaction.ovr@964224d78bc9 -type f -name *.prefab)",
+      "Bash(find D:ProjectsAimTrainer/Library/PackageCache/com.unity.textmeshpro@53f43edfd2e0 -type f \\\\\\(-name *.prefab -o -name *.asset \\\\\\))",
+      "Bash(find D:ProjectsAimTrainer/Library/PackageCache/com.unity.render-pipelines.universal@37e0d4fc2503 -type f -name *.shader)",
+      "Bash(find D:ProjectsAimTrainer/Library/PackageCache/com.unity.ugui@bb329a87fcdc -type f -name *.prefab)",
+      "Bash(find D:ProjectsAimTrainer/Library/PackageCache -type f -path *UI* -name *.prefab)",
+      "Bash(find D:ProjectsAimTrainer/Library/PackageCache/com.meta.xr.sdk.interaction@0a0b3efbe99d/Runtime/Sample/Objects/UISet/Prefabs -type f -name *.prefab)",
+      "Bash(grep -E \"^D:|\\\\.prefab$\")",
+      "Bash(find D:ProjectsAimTrainer/Library/PackageCache -type f -path *sample*ui* -name *.prefab)",
+      "Bash(find D:ProjectsAimTrainer/Library/PackageCache/com.unity.textmeshpro@53f43edfd2e0 -type f -name *.asset)",
+      "WebSearch"
+    ]
+  }
+}
